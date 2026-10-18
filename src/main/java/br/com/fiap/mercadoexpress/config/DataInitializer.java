@@ -13,11 +13,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * Carga inicial:
- *  - cria o usuário ADMIN (credenciais via variáveis ADMIN_USERNAME / ADMIN_PASSWORD)
- *  - cria um CLIENTE de demonstração e alguns produtos (se SEED_DEMO_DATA=true)
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor

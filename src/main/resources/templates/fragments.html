@@ -6,7 +6,6 @@
 </head>
 <body>
 
-<!-- ===== Head comum ===== -->
 <th:block th:fragment="pageHead(titulo)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +13,6 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </th:block>
 
-<!-- ===== Barra de navegação ===== -->
 <nav class="navbar" th:fragment="navbar">
     <a th:href="@{/}" class="brand">🛒 Mercado<span class="dot">Express</span></a>
 
@@ -40,13 +38,11 @@
     </div>
 </nav>
 
-<!-- ===== Mensagens (flash attributes) ===== -->
 <th:block th:fragment="alerts">
     <div class="alert alert-success" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}">Sucesso</div>
     <div class="alert alert-error" th:if="${mensagemErro}" th:text="${mensagemErro}">Erro</div>
 </th:block>
 
-<!-- ===== Rodapé ===== -->
 <footer class="footer" th:fragment="footer">
     Mercado Express · CP5 Java Advanced · FIAP TDS · Spring Boot + Spring Security + PostgreSQL
 </footer>

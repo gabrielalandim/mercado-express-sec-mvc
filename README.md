@@ -1,8 +1,8 @@
-# 🛒 Mercado Express — Spring Security MVC + PostgreSQL
+# 🛒 Mercado Express - Spring Security MVC + PostgreSQL
 
 Aplicação **Spring Boot + Spring MVC + Thymeleaf + Spring Security** para um mercado *express* (frutas, produtos de limpeza, higiene, meias...), com persistência em **PostgreSQL**, **tela de login própria**, **tela de cadastro (Sign Up)**, **dois tipos de usuário** (ADMIN e CLIENTE) e **deploy no Render**.
 
-Projeto do **Checkpoint 5 – Parte 1 (Spring Security MVC, Deploy e PostgreSQL)** da disciplina **Java Advanced** — Tecnologia em Análise e Desenvolvimento de Sistemas (TDS) — FIAP.
+Projeto do **Checkpoint 5 - Parte 1 (Spring Security MVC, Deploy e PostgreSQL)** da disciplina **Java Advanced** - Tecnologia em Análise e Desenvolvimento de Sistemas (TDS) - FIAP.
 
 > *"Quem ouve, esquece. Quem vê, lembra. Quem faz, aprende."*
 
@@ -45,9 +45,6 @@ O Mercado Express é um sistema web em que:
 ## 🧩 Spring Initializr e dependências
 
 O projeto foi criado no [Spring Initializr](https://start.spring.io) com a configuração abaixo.
-
-👉 **Link com tudo já preenchido:**
-[start.spring.io (Mercado Express – Parte 1)](https://start.spring.io/#!type=maven-project&language=java&platformVersion=4.1.1&packaging=jar&configurationFileFormat=yaml&jvmVersion=21&groupId=br.com.fiap&artifactId=mercadoexpress&name=mercadoexpress&description=Mercado%20Express%20-%20CP5%20Parte%201&packageName=br.com.fiap.mercadoexpress&dependencies=web,thymeleaf,security,data-jpa,postgresql,validation,lombok,devtools)
 
 | Campo | Valor |
 |---|---|
@@ -263,7 +260,7 @@ return User.withUsername(usuario.getUsername())
 
 | Perfil | Usuário | Senha |
 |---|---|---|
-| ADMIN | `admin` | `admin123` (local) — no deploy, a senha definida na variável `ADMIN_PASSWORD` do Render |
+| ADMIN | `admin` | `admin123` (local) - no deploy, a senha definida na variável `ADMIN_PASSWORD` do Render |
 | CLIENTE | `cliente` | `cliente123` |
 
 Na tela, os botões aparecem conforme o perfil com o `sec:authorize` do Thymeleaf:
@@ -278,67 +275,67 @@ Na tela, os botões aparecem conforme o perfil com o `sec:authorize` do Thymelea
 
 > 📸 Prints feitos na aplicação publicada no Render (os prints ficam na pasta [`docs/img`](docs/img)).
 
-### Landing page — `GET /` (index.html)
+### Landing page - `GET /` (index.html)
 Página pública de apresentação, com os botões **Criar minha conta** e **Entrar**.
 
 ![Landing page](docs/img/01-index.png)
 
-### Login customizado — `GET /login`
+### Login customizado - `GET /login`
 Tela própria (não é a padrão do Spring Security). Mostra mensagens de erro, de logout e de cadastro concluído.
 
 ![Login](docs/img/02-login.png)
 
-### Usuário sem conta → Sign Up — `GET /cadastro?semConta`
+### Usuário sem conta → Sign Up - `GET /cadastro?semConta`
 Ao tentar entrar com um usuário que não existe, o sistema leva para o cadastro já com o usuário preenchido.
 
 ![Redirecionamento para o Sign Up](docs/img/03-redirect-signup.png)
 
-### Sign Up — `GET/POST /cadastro`
+### Sign Up - `GET/POST /cadastro`
 Formulário com validação. O perfil é salvo em `TDS_Users_Mercado`.
 
 ![Sign Up](docs/img/04-cadastro.png)
 
-### Área restrita do ADMIN — `GET /admin`
+### Área restrita do ADMIN - `GET /admin`
 Destino do ADMIN após o login: indicadores (produtos, usuários, valor do estoque, lucro potencial), alerta de estoque baixo e atalhos do CRUD.
 
 ![Painel ADMIN](docs/img/05-admin-painel.png)
 
-### Área restrita do CLIENTE — `GET /cliente`
+### Área restrita do CLIENTE - `GET /cliente`
 Destino do CLIENTE após o login: boas-vindas com os dados do perfil e catálogo com busca.
 
 ![Área do cliente](docs/img/06-cliente-area.png)
 
-### READ — Listagem e busca — `GET /produtos?busca=`
+### READ - Listagem e busca - `GET /produtos?busca=`
 Consulta a tabela `TDS_Sec_MVC_TB_Mercado`. O ADMIN vê os botões **Editar** e **Excluir**; o CLIENTE só consulta.
 
 ![Lista de produtos](docs/img/07-produtos-lista.png)
 
-### READ — Consulta de um produto — `GET /produtos/{id}`
+### READ - Consulta de um produto - `GET /produtos/{id}`
 Retorna as informações do produto solicitado (o ADMIN também vê custo e margem).
 
 ![Detalhe do produto](docs/img/08-produto-detalhe.png)
 
-### CREATE — `GET /produtos/novo` + `POST /produtos`
+### CREATE - `GET /produtos/novo` + `POST /produtos`
 Formulário com validação; ao salvar, o `ProdutoService` faz o commit no PostgreSQL.
 
 ![Novo produto](docs/img/09-produto-novo.png)
 
-### UPDATE — `GET /produtos/{id}/editar` + `POST /produtos`
+### UPDATE - `GET /produtos/{id}/editar` + `POST /produtos`
 O mesmo formulário é reaproveitado; o campo `id` oculto indica que é uma atualização.
 
 ![Editar produto](docs/img/10-produto-editar.png)
 
-### DELETE — `POST /produtos/{id}/excluir`
+### DELETE - `POST /produtos/{id}/excluir`
 Botão com confirmação antes de remover o registro.
 
 ![Excluir produto](docs/img/11-produto-excluir.png)
 
-### Gestão de usuários (ADMIN) — `GET /admin/usuarios`
+### Gestão de usuários (ADMIN) - `GET /admin/usuarios`
 Lista os perfis da tabela `TDS_Users_Mercado` e permite promover um CLIENTE a ADMIN (ou o inverso).
 
 ![Usuários](docs/img/13-admin-usuarios.png)
 
-### Acesso negado — `/acesso-negado`
+### Acesso negado - `/acesso-negado`
 Exibida quando um CLIENTE tenta acessar uma rota de ADMIN (ex.: `/produtos/novo`).
 
 ![Acesso negado](docs/img/14-acesso-negado.png)
@@ -372,7 +369,7 @@ app:
 |---|---|---|
 | `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `5432` / `mercadoexpress` | Servidor PostgreSQL |
 | `DB_USER` / `DB_PASSWORD` | `postgres` / `postgres` | Credenciais |
-| `DB_URL` | — | (opcional) URL JDBC completa, ex.: Neon/Supabase |
+| `DB_URL` | - | (opcional) URL JDBC completa, ex.: Neon/Supabase |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | `admin` / `admin123` | ADMIN criado na 1ª execução |
 | `SEED_DEMO_DATA` | `true` | Cria o cliente demo e produtos iniciais |
 | `PORT` | `8080` | Porta HTTP (o Render define automaticamente) |
@@ -394,7 +391,7 @@ docker compose up -d
 ./mvnw spring-boot:run          # Windows: mvnw.cmd spring-boot:run
 ```
 
-Acesse **http://localhost:8080** e entre com `admin / admin123` ou `cliente / cliente123` — ou crie uma conta nova.
+Acesse **http://localhost:8080** e entre com `admin / admin123` ou `cliente / cliente123` - ou crie uma conta nova.
 
 > Sem Docker? Instale o PostgreSQL, crie o banco `mercadoexpress` e ajuste `DB_USER`/`DB_PASSWORD` na *Run Configuration* do IntelliJ.
 
@@ -402,15 +399,15 @@ Acesse **http://localhost:8080** e entre com `admin / admin123` ou `cliente / cl
 
 ## 🌐 Deploy no Render
 
-**Plataforma:** Render — Web Service (Docker) + Render PostgreSQL.
+**Plataforma:** Render - Web Service (Docker) + Render PostgreSQL.
 
 **Como foi feito neste projeto (manual):**
-1. **New → PostgreSQL** (plano Free, região Oregon) — banco `mercadoexpress`.
+1. **New → PostgreSQL** (plano Free, região Oregon) - banco `mercadoexpress`.
 2. **New → Web Service** → repositório `gabrielalandim/mercado-express-sec-mvc` → *Runtime* **Docker** → mesma região do banco.
 3. Variáveis de ambiente: `DB_HOST` (hostname interno do banco), `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` e `ADMIN_PASSWORD`.
 4. **Deploy Web Service** → o Render faz o build do `Dockerfile` e publica a aplicação.
 
-**Alternativa — Blueprint (automático):**
+**Alternativa - Blueprint (automático):**
 1. No Render: **New → Blueprint** e selecione este repositório.
 2. O arquivo [`render.yaml`](render.yaml) cria o banco `mercadoexpress-db` e o serviço `mercado-express-sec-mvc` já com `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASSWORD` ligados ao banco.
 3. Informe o valor de `ADMIN_PASSWORD` quando solicitado e clique em **Apply**.
@@ -438,4 +435,4 @@ Acesse **http://localhost:8080** e entre com `admin / admin123` ou `cliente / cl
 
 ## 📄 Licença
 
-Projeto acadêmico desenvolvido para fins educacionais na disciplina de Java Advanced — FIAP.
+Projeto acadêmico desenvolvido para fins educacionais na disciplina de Java Advanced - FIAP.

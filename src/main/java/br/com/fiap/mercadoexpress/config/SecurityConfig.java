@@ -10,14 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Regras de acesso do Mercado Express.
- *
- * Público ......... /, /login, /cadastro, /acesso-negado, arquivos estáticos
- * ADMIN ........... /admin/**, criar/editar/excluir produtos
- * CLIENTE ......... /cliente/**
- * ADMIN e CLIENTE . /produtos (lista e consulta de um produto)
- */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,29 +22,29 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Rotas públicas
+                        // publicas
                         .requestMatchers("/", "/index", "/login", "/cadastro", "/acesso-negado", "/error").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll()
 
-                        // Somente ADMIN
+                        // admin
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/produtos/novo", "/produtos/*/editar").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/produtos", "/produtos/*/excluir").hasRole("ADMIN")
 
-                        // Somente CLIENTE
+                        // cliente
                         .requestMatchers("/cliente/**").hasRole("CLIENTE")
 
-                        // ADMIN e CLIENTE (consulta)
+                        // admin e cliente
                         .requestMatchers(HttpMethod.GET, "/produtos", "/produtos/*").hasAnyRole("ADMIN", "CLIENTE")
 
                         .anyRequest().authenticated()
                 )
-                // Tela de login própria (substitui a tela padrão do Spring Security)
+                // login customizado
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .successHandler(loginSuccessHandler)   // redireciona conforme o perfil
-                        .failureHandler(loginFailureHandler)   // sem conta -> tela de Sign Up
+                        .successHandler(loginSuccessHandler)
+                        .failureHandler(loginFailureHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -63,7 +55,6 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(ex -> ex.accessDeniedPage("/acesso-negado"));
-        // CSRF permanece habilitado: os formulários Thymeleaf (th:action) enviam o token automaticamente.
 
         return http.build();
     }

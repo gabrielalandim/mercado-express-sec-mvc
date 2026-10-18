@@ -7,10 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-/**
- * Perfil de usuário salvo no Sign Up.
- * Tabela no PostgreSQL: TDS_Users_Mercado
- */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,7 +27,6 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 40)
     private String username;
 
-    /** Senha criptografada com BCrypt (nunca é salva em texto puro). */
     @Column(nullable = false, length = 100)
     private String senha;
 

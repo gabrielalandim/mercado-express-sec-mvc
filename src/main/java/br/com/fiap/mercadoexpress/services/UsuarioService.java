@@ -19,10 +19,6 @@ public class UsuarioService {
     private final UsuarioRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * Sign Up: todo usuário que se cadastra pela tela pública recebe o perfil CLIENTE.
-     * A senha é criptografada com BCrypt antes de ser salva em TDS_Users_Mercado.
-     */
     @Transactional
     public Usuario cadastrarCliente(CadastroUsuarioDTO dto) {
         return criar(dto.getNome(), dto.getEmail(), dto.getUsername(), dto.getSenha(), Role.CLIENTE);
@@ -69,7 +65,6 @@ public class UsuarioService {
         return repository.countByRole(role);
     }
 
-    /** ADMIN pode promover um CLIENTE a ADMIN (ou o inverso), exceto a si mesmo. */
     @Transactional
     public void alternarPerfil(Long id, String usernameLogado) {
         Usuario usuario = repository.findById(id)

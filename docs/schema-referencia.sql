@@ -1,9 +1,4 @@
--- =====================================================================
--- Mercado Express - CP5 Parte 1
--- Script de REFERÊNCIA das tabelas no PostgreSQL.
--- (O Hibernate cria/atualiza as tabelas automaticamente com ddl-auto=update;
---  este arquivo serve para documentação e para criação manual, se preferir.)
--- =====================================================================
+-- Tabelas do projeto (criadas automaticamente pelo Hibernate)
 
 CREATE TABLE IF NOT EXISTS tds_sec_mvc_tb_mercado (
     id           BIGSERIAL PRIMARY KEY,
@@ -21,8 +16,8 @@ CREATE TABLE IF NOT EXISTS tds_users_mercado (
     nome           VARCHAR(100) NOT NULL,
     email          VARCHAR(120) NOT NULL UNIQUE,
     username       VARCHAR(40)  NOT NULL UNIQUE,
-    senha          VARCHAR(100) NOT NULL,          -- hash BCrypt
-    role           VARCHAR(20)  NOT NULL,          -- ADMIN | CLIENTE
+    senha          VARCHAR(100) NOT NULL,
+    role           VARCHAR(20)  NOT NULL,
     data_cadastro  TIMESTAMP    NOT NULL
 );
 

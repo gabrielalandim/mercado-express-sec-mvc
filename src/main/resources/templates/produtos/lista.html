@@ -18,7 +18,6 @@
 
     <th:block th:replace="~{fragments :: alerts}"></th:block>
 
-    <!-- READ com filtro: consulta na tabela TDS_Sec_MVC_TB_Mercado -->
     <form class="search-bar" th:action="@{/produtos}" method="get">
         <input type="text" name="busca" th:value="${busca}" placeholder="Buscar por nome ou tipo (ex.: maçã, limpeza)">
         <button type="submit" class="btn btn-outline">🔎 Buscar</button>

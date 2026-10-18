@@ -9,10 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * Faz a ponte entre a tabela TDS_Users_Mercado e o Spring Security.
- * O perfil (ADMIN / CLIENTE) vira a authority ROLE_ADMIN / ROLE_CLIENTE.
- */
 @Service
 @RequiredArgsConstructor
 public class UsuarioDetailsService implements UserDetailsService {

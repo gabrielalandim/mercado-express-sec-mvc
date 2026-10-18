@@ -10,15 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- * Endpoints MVC do CRUD de produtos (tabela TDS_Sec_MVC_TB_Mercado).
- *
- * READ   GET  /produtos               lista (com busca ?busca=)   ADMIN e CLIENTE
- * READ   GET  /produtos/{id}          consulta de um produto      ADMIN e CLIENTE
- * CREATE GET  /produtos/novo  + POST /produtos                    ADMIN
- * UPDATE GET  /produtos/{id}/editar + POST /produtos              ADMIN
- * DELETE POST /produtos/{id}/excluir                              ADMIN
- */
 @Controller
 @RequestMapping("/produtos")
 @RequiredArgsConstructor

@@ -6,7 +6,6 @@
 <body>
 <nav th:replace="~{fragments :: navbar}"></nav>
 
-<!-- READ de um único produto: SELECT na tabela TDS_Sec_MVC_TB_Mercado pelo ID -->
 <div class="container">
     <div class="page-header">
         <div>
@@ -52,7 +51,6 @@
                           th:text="${produto.estoque} + ' unidades'">0</span>
                 </div>
             </div>
-            <!-- Informações de custo e margem: somente ADMIN -->
             <div class="detail-item" sec:authorize="hasRole('ADMIN')">
                 <div class="label">Custo / margem unitária</div>
                 <div class="value">

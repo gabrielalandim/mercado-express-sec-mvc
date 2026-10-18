@@ -6,7 +6,6 @@
 <body>
 <nav th:replace="~{fragments :: navbar}"></nav>
 
-<!-- Tela restrita CLIENTE: destino após o login de um cliente -->
 <div class="container">
     <div class="welcome">
         <h1 th:text="'Olá, ' + ${usuario != null ? usuario.nome : 'cliente'} + '! 🛍️'">Olá!</h1>

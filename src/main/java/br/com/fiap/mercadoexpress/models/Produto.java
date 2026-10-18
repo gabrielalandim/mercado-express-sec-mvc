@@ -8,11 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-/**
- * Produto do Mercado Express.
- * Tabela no PostgreSQL: TDS_Sec_MVC_TB_Mercado
- * (o Hibernate grava o nome em minúsculas: tds_sec_mvc_tb_mercado)
- */
 @Getter
 @Setter
 @NoArgsConstructor

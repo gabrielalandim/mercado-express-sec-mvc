@@ -1,5 +1,3 @@
-# Blueprint do Render: cria o PostgreSQL e o Web Service (Docker) já conectados.
-# Render > New > Blueprint > selecione este repositório.
 databases:
   - name: mercadoexpress-db
     databaseName: mercadoexpress

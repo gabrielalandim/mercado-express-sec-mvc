@@ -10,11 +10,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Regras de negócio do CRUD de produtos.
- * Cada operação de escrita roda em uma transação (@Transactional),
- * garantindo o COMMIT no PostgreSQL ao final do método.
- */
 @Service
 @RequiredArgsConstructor
 public class ProdutoService {
@@ -62,7 +57,6 @@ public class ProdutoService {
         return repository.findByEstoqueLessThanEqualOrderByEstoqueAsc(LIMITE_ESTOQUE_BAIXO);
     }
 
-    /** Valor total do estoque a preço de venda. */
     @Transactional(readOnly = true)
     public BigDecimal valorTotalEstoque() {
         return repository.findAll().stream()
@@ -70,7 +64,6 @@ public class ProdutoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    /** Lucro potencial do estoque: (preço de venda - custo) x quantidade. */
     @Transactional(readOnly = true)
     public BigDecimal lucroPotencialEstoque() {
         return repository.findAll().stream()

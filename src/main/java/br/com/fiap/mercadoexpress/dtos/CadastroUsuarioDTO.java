@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-/**
- * Dados do formulário de Sign Up (cadastro de novo usuário).
- */
 @Data
 public class CadastroUsuarioDTO {
 

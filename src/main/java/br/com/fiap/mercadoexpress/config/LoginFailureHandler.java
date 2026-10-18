@@ -12,11 +12,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-/**
- * Falha no login:
- *  - se o usuário NÃO possui cadastro -> redireciona para a tela de Sign Up (/cadastro)
- *  - se o usuário existe, mas a senha está errada -> volta para /login?error
- */
 @Component
 @RequiredArgsConstructor
 public class LoginFailureHandler implements AuthenticationFailureHandler {

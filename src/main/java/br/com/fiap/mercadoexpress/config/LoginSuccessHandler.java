@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Após o login, cada tipo de usuário vai para a sua tela de acesso restrito:
- * ADMIN -> /admin (painel de gestão) | CLIENTE -> /cliente (área do cliente)
- */
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 

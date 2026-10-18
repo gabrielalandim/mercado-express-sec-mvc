@@ -19,13 +19,11 @@ public class AuthController {
 
     private final UsuarioService usuarioService;
 
-    /** Tela de login customizada (não usa a tela padrão do Spring Security). */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    /** Tela de Sign Up. Recebe ?username=... quando o login falhou por falta de cadastro. */
     @GetMapping("/cadastro")
     public String cadastro(@RequestParam(required = false) String username, Model model) {
         CadastroUsuarioDTO dto = new CadastroUsuarioDTO();
