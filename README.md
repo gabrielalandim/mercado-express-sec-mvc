@@ -6,7 +6,7 @@ Projeto do **Checkpoint 5 – Parte 1 (Spring Security MVC, Deploy e PostgreSQL)
 
 > *"Quem ouve, esquece. Quem vê, lembra. Quem faz, aprende."*
 
-🔗 **Deploy (produção):** https://mercado-express-mvc-1u1j.onrender.com
+🔗 **Deploy (produção):** https://mercado-express-sec-mvc.onrender.com
 🛠️ **Plataforma de deploy:** Render (Web Service Docker + Render PostgreSQL)
 💻 **IDE utilizada:** IntelliJ IDEA
 
@@ -104,7 +104,7 @@ Navegador ──HTTP──► Spring Security (filtros) ──► Controller ─
 ```
 
 ```
-mercado-express-mvc/
+mercado-express-sec-mvc/
 ├── src/main/java/br/com/fiap/mercadoexpress/
 │   ├── config/
 │   │   ├── SecurityConfig.java         # Regras de acesso, login customizado, logout, BCrypt
@@ -263,7 +263,7 @@ return User.withUsername(usuario.getUsername())
 
 | Perfil | Usuário | Senha |
 |---|---|---|
-| ADMIN | `admin` | `admin123` (em produção, definida pela variável `ADMIN_PASSWORD`) |
+| ADMIN | `admin` | `admin123` (local) — no deploy, a senha definida na variável `ADMIN_PASSWORD` do Render |
 | CLIENTE | `cliente` | `cliente123` |
 
 Na tela, os botões aparecem conforme o perfil com o `sec:authorize` do Thymeleaf:
@@ -276,7 +276,7 @@ Na tela, os botões aparecem conforme o perfil com o `sec:authorize` do Thymelea
 
 ## 🖥️ Telas e CRUD
 
-> 📸 Os prints ficam na pasta [`docs/img`](docs/img).
+> 📸 Prints feitos na aplicação publicada no Render (os prints ficam na pasta [`docs/img`](docs/img)).
 
 ### Landing page — `GET /` (index.html)
 Página pública de apresentação, com os botões **Criar minha conta** e **Entrar**.
@@ -384,8 +384,8 @@ app:
 **Pré-requisitos:** Java 21, Docker (para o PostgreSQL) e IntelliJ IDEA (ou Maven Wrapper).
 
 ```bash
-git clone <link-deste-repositorio>
-cd mercado-express-mvc
+git clone https://github.com/gabrielalandim/mercado-express-sec-mvc.git
+cd mercado-express-sec-mvc
 
 # 1. Sobe o PostgreSQL local (banco mercadoexpress, usuário/senha postgres)
 docker compose up -d
@@ -404,18 +404,20 @@ Acesse **http://localhost:8080** e entre com `admin / admin123` ou `cliente / cl
 
 **Plataforma:** Render — Web Service (Docker) + Render PostgreSQL.
 
-**Opção A — Blueprint (automático):**
+**Como foi feito neste projeto (manual):**
+1. **New → PostgreSQL** (plano Free, região Oregon) — banco `mercadoexpress`.
+2. **New → Web Service** → repositório `gabrielalandim/mercado-express-sec-mvc` → *Runtime* **Docker** → mesma região do banco.
+3. Variáveis de ambiente: `DB_HOST` (hostname interno do banco), `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` e `ADMIN_PASSWORD`.
+4. **Deploy Web Service** → o Render faz o build do `Dockerfile` e publica a aplicação.
+
+**Alternativa — Blueprint (automático):**
 1. No Render: **New → Blueprint** e selecione este repositório.
 2. O arquivo [`render.yaml`](render.yaml) cria o banco `mercadoexpress-db` e o serviço `mercado-express-sec-mvc` já com `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASSWORD` ligados ao banco.
 3. Informe o valor de `ADMIN_PASSWORD` quando solicitado e clique em **Apply**.
 
-**Opção B — Manual:**
-1. **New → PostgreSQL** (plano Free) e copie *Hostname*, *Port*, *Database*, *Username* e *Password*.
-2. **New → Web Service** → conecte o repositório → *Runtime*: **Docker**.
-3. Em **Environment**, cadastre `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` e `ADMIN_PASSWORD`.
-4. **Deploy**. O Render define a variável `PORT`, que a aplicação já lê.
+> O Render define a variável `PORT`, que a aplicação já lê.
 
-🔗 **URL de produção:** https://mercado-express-mvc-1u1j.onrender.com
+🔗 **URL de produção:** https://mercado-express-sec-mvc.onrender.com
 
 > No plano gratuito o serviço "dorme" após um tempo sem acesso; o primeiro carregamento pode levar ~1 minuto.
 
