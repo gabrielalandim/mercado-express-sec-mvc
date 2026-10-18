@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments :: pageHead('Produtos')}"></th:block>
+</head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1>Produtos do mercado</h1>
+            <p class="subtitle" sec:authorize="hasRole('ADMIN')">Gerencie o catálogo: cadastre, consulte, edite e exclua produtos.</p>
+            <p class="subtitle" sec:authorize="hasRole('CLIENTE')">Consulte os produtos disponíveis e seus preços.</p>
+        </div>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/produtos/novo}" class="btn btn-primary">+ Novo produto</a>
+    </div>
+
+    <th:block th:replace="~{fragments :: alerts}"></th:block>
+
+    <!-- READ com filtro: consulta na tabela TDS_Sec_MVC_TB_Mercado -->
+    <form class="search-bar" th:action="@{/produtos}" method="get">
+        <input type="text" name="busca" th:value="${busca}" placeholder="Buscar por nome ou tipo (ex.: maçã, limpeza)">
+        <button type="submit" class="btn btn-outline">🔎 Buscar</button>
+        <a th:if="${busca}" th:href="@{/produtos}" class="btn btn-outline">Limpar</a>
+    </form>
+
+    <div class="card">
+        <div class="table-wrap" th:if="${not #lists.isEmpty(produtos)}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Setor</th>
+                    <th>Tamanho</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="produto : ${produtos}">
+                    <td th:text="${produto.id}">1</td>
+                    <td><a th:href="@{/produtos/{id}(id=${produto.id})}" th:text="${produto.nome}">Nome</a></td>
+                    <td><span class="badge" th:text="${produto.tipo}">Tipo</span></td>
+                    <td th:text="${produto.setor}">Setor</td>
+                    <td th:text="${produto.tamanho}">Tam</td>
+                    <td class="price" th:text="${'R$ ' + #numbers.formatDecimal(produto.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${produto.estoque == 0 ? 'badge-zero' : (produto.estoque le 10 ? 'badge-low' : 'badge-ok')}"
+                              th:text="${produto.estoque} + ' un.'">0</span>
+                    </td>
+                    <td class="actions-cell">
+                        <a th:href="@{/produtos/{id}(id=${produto.id})}" class="btn btn-outline btn-sm">Ver</a>
+                        <a sec:authorize="hasRole('ADMIN')" th:href="@{/produtos/{id}/editar(id=${produto.id})}" class="btn btn-outline btn-sm">Editar</a>
+                        <form sec:authorize="hasRole('ADMIN')" class="inline-form"
+                              th:action="@{/produtos/{id}/excluir(id=${produto.id})}" method="post"
+                              onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                            <button type="submit" class="btn btn-danger-outline btn-sm">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(produtos)}">
+            <span class="emoji">📦</span>
+            <p th:if="${busca}">Nenhum produto encontrado para "<strong th:text="${busca}"></strong>".</p>
+            <p th:unless="${busca}">Nenhum produto cadastrado ainda.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: pageHead('Entrar')}"></th:block>
+</head>
+<body>
+<!-- Tela de login customizada (substitui a tela padrão do Spring Security) -->
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-head">
+            <div class="logo">🛒</div>
+            <h1>Entrar no Mercado Express</h1>
+            <p class="subtitle">Acesse sua conta para continuar</p>
+        </div>
+
+        <div class="alert alert-error" th:if="${param.error}">
+            Usuário ou senha inválidos. Confira os dados e tente de novo.
+        </div>
+        <div class="alert alert-success" th:if="${param.logout}">
+            Você saiu da sua conta. Até a próxima! 👋
+        </div>
+        <div class="alert alert-success" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}"></div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" placeholder="seu.usuario" required autofocus />
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+        </form>
+
+        <p class="auth-footer">
+            Ainda não tem conta? <a th:href="@{/cadastro}">Cadastre-se</a>
+        </p>
+
+        <div class="demo-box">
+            <strong>Usuários de demonstração</strong><br>
+            ADMIN: <code>admin</code> / <code>admin123</code><br>
+            CLIENTE: <code>cliente</code> / <code>cliente123</code><br>
+            Se você digitar um usuário que não existe, será levado à tela de cadastro.
+        </div>
+
+        <p class="auth-footer"><a th:href="@{/}" class="link-muted">← Voltar para o início</a></p>
+    </div>
+</div>
+</body>
+</html>

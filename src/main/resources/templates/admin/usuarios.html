@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: pageHead('Usuários')}"></th:block>
+</head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<!-- Tela restrita ADMIN: perfis salvos na tabela TDS_Users_Mercado -->
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1>Usuários cadastrados</h1>
+            <p class="subtitle">Perfis salvos na tabela <code>TDS_Users_Mercado</code>. As senhas ficam criptografadas (BCrypt).</p>
+        </div>
+    </div>
+
+    <th:block th:replace="~{fragments :: alerts}"></th:block>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Usuário</th>
+                    <th>E-mail</th>
+                    <th>Perfil</th>
+                    <th>Cadastro</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.id}">1</td>
+                    <td th:text="${u.nome}">Nome</td>
+                    <td th:text="${u.username}">user</td>
+                    <td th:text="${u.email}">email</td>
+                    <td>
+                        <span class="badge" th:classappend="${u.role.name() == 'ADMIN' ? 'badge-admin' : 'badge-cliente'}"
+                              th:text="${u.role}">ROLE</span>
+                    </td>
+                    <td th:text="${#temporals.format(u.dataCadastro, 'dd/MM/yyyy HH:mm')}">data</td>
+                    <td>
+                        <form class="inline-form" th:action="@{/admin/usuarios/{id}/perfil(id=${u.id})}" method="post">
+                            <button type="submit" class="btn btn-outline btn-sm"
+                                    th:text="${u.role.name() == 'ADMIN' ? 'Tornar CLIENTE' : 'Tornar ADMIN'}">Alterar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

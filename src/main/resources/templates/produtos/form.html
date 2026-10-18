@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: pageHead(${produto.id == null ? 'Novo produto' : 'Editar produto'})}"></th:block>
+</head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<!-- CREATE / UPDATE: o mesmo formulário serve para os dois (campo id oculto) -->
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 th:text="${produto.id == null ? 'Novo produto' : 'Editar produto #' + produto.id}">Formulário</h1>
+            <p class="subtitle">Preencha os dados do produto do Mercado Express.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/produtos}" th:object="${produto}" method="post" novalidate>
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" th:field="*{nome}" th:errorclass="is-invalid" placeholder="Ex.: Maçã Gala" />
+                <span class="field-error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tipo">Tipo / categoria</label>
+                    <input type="text" id="tipo" th:field="*{tipo}" th:errorclass="is-invalid" placeholder="Ex.: Fruta, Limpeza, Higiene" />
+                    <span class="field-error" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="setor">Setor</label>
+                    <input type="text" id="setor" th:field="*{setor}" th:errorclass="is-invalid" placeholder="Ex.: Hortifruti" />
+                    <span class="field-error" th:if="${#fields.hasErrors('setor')}" th:errors="*{setor}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tamanho">Tamanho / porção</label>
+                    <input type="text" id="tamanho" th:field="*{tamanho}" th:errorclass="is-invalid" placeholder="Ex.: 500 ml, 1 kg" />
+                    <span class="field-error" th:if="${#fields.hasErrors('tamanho')}" th:errors="*{tamanho}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="estoque">Estoque (unidades)</label>
+                    <input type="number" id="estoque" min="0" step="1" th:field="*{estoque}" th:errorclass="is-invalid" placeholder="0" />
+                    <span class="field-error" th:if="${#fields.hasErrors('estoque')}" th:errors="*{estoque}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="preco">Preço de venda (R$)</label>
+                    <input type="number" id="preco" step="0.01" min="0" th:field="*{preco}" th:errorclass="is-invalid" placeholder="0.00" />
+                    <span class="field-error" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="precoCusto">Preço de custo (R$)</label>
+                    <input type="number" id="precoCusto" step="0.01" min="0" th:field="*{precoCusto}" th:errorclass="is-invalid" placeholder="0.00" />
+                    <span class="field-error" th:if="${#fields.hasErrors('precoCusto')}" th:errors="*{precoCusto}"></span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Salvar produto</button>
+                <a th:href="@{/produtos}" class="link-muted">Cancelar e voltar para a lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

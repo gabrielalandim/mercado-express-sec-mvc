@@ -1,0 +1,18 @@
+# PostgreSQL local para desenvolvimento
+# Subir:  docker compose up -d
+# Acesso: localhost:5432 | banco: mercadoexpress | usuário: postgres | senha: postgres
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mercadoexpress-postgres
+    environment:
+      POSTGRES_DB: mercadoexpress
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

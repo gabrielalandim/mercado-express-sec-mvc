@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments :: pageHead('Início')}"></th:block>
+</head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<!-- Landing page pública -->
+<section class="hero">
+    <div class="hero-inner">
+        <div>
+            <h1>Tudo do dia a dia,<br>rapidinho no Mercado<span class="dot">Express</span>.</h1>
+            <p>Frutas fresquinhas, produtos de limpeza, higiene e até aquela meia que sempre some.
+                Crie sua conta, entre e consulte o catálogo completo com preços atualizados.</p>
+            <div class="hero-actions" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/cadastro}" class="btn btn-primary">Criar minha conta</a>
+                <a th:href="@{/login}" class="btn btn-light">Já tenho conta · Entrar</a>
+            </div>
+            <div class="hero-actions" sec:authorize="isAuthenticated()">
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" class="btn btn-primary">Ir para o painel</a>
+                <a sec:authorize="hasRole('CLIENTE')" th:href="@{/cliente}" class="btn btn-primary">Ir para minha área</a>
+                <a th:href="@{/produtos}" class="btn btn-light">Ver produtos</a>
+            </div>
+        </div>
+        <div class="hero-art">🍎🧴🧦<br>🍌🧼☕</div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature">
+        <div class="icon">🔐</div>
+        <h3>Login seguro</h3>
+        <p>Autenticação com Spring Security e senhas criptografadas com BCrypt.</p>
+    </div>
+    <div class="feature">
+        <div class="icon">🐘</div>
+        <h3>Dados no PostgreSQL</h3>
+        <p>Produtos em <code>TDS_Sec_MVC_TB_Mercado</code> e perfis em <code>TDS_Users_Mercado</code>.</p>
+    </div>
+    <div class="feature">
+        <div class="icon">🧾</div>
+        <h3>CRUD completo</h3>
+        <p>Cadastrar, consultar, editar e excluir produtos direto pelo navegador.</p>
+    </div>
+</section>
+
+<h2 class="section-title">Dois tipos de acesso</h2>
+<section class="roles">
+    <div class="role-card">
+        <span class="badge badge-admin">ADMIN</span>
+        <h3>Gestão do mercado</h3>
+        <ul>
+            <li>Painel com indicadores de estoque</li>
+            <li>Cadastrar, editar e excluir produtos</li>
+            <li>Gerenciar usuários e perfis</li>
+        </ul>
+    </div>
+    <div class="role-card cliente">
+        <span class="badge badge-cliente">CLIENTE</span>
+        <h3>Área do cliente</h3>
+        <ul>
+            <li>Cadastro pela tela de Sign Up</li>
+            <li>Catálogo com busca por nome ou tipo</li>
+            <li>Consulta detalhada de cada produto</li>
+        </ul>
+    </div>
+</section>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

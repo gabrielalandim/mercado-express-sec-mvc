@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments :: pageHead('Painel ADMIN')}"></th:block>
+</head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<!-- Tela restrita ADMIN: destino após o login de um administrador -->
+<div class="container">
+    <div class="welcome">
+        <h1>Olá, <span sec:authentication="name">admin</span>! 👋</h1>
+        <p>Este é o painel de gestão do Mercado Express (acesso restrito ao perfil ADMIN).</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="label">Produtos</div>
+            <div class="value" th:text="${totalProdutos}">0</div>
+        </div>
+        <div class="stat">
+            <div class="label">Usuários (clientes / admins)</div>
+            <div class="value" th:text="${totalUsuarios} + ' (' + ${totalClientes} + ' / ' + ${totalAdmins} + ')'">0</div>
+        </div>
+        <div class="stat">
+            <div class="label">Valor do estoque</div>
+            <div class="value money" th:text="${'R$ ' + #numbers.formatDecimal(valorEstoque, 1, 'POINT', 2, 'COMMA')}">R$ 0</div>
+        </div>
+        <div class="stat">
+            <div class="label">Lucro potencial</div>
+            <div class="value money" th:text="${'R$ ' + #numbers.formatDecimal(lucroPotencial, 1, 'POINT', 2, 'COMMA')}">R$ 0</div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card card-pad">
+            <h3 style="margin-top:0;">⚠️ Estoque baixo (≤ <span th:text="${limiteEstoque}">10</span> un.)</h3>
+            <table th:if="${not #lists.isEmpty(estoqueBaixo)}">
+                <thead><tr><th>Produto</th><th>Estoque</th><th></th></tr></thead>
+                <tbody>
+                <tr th:each="p : ${estoqueBaixo}">
+                    <td th:text="${p.nome}">Produto</td>
+                    <td><span class="badge" th:classappend="${p.estoque == 0 ? 'badge-zero' : 'badge-low'}" th:text="${p.estoque} + ' un.'">0</span></td>
+                    <td><a th:href="@{/produtos/{id}/editar(id=${p.id})}" class="btn btn-outline btn-sm">Repor</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="subtitle" th:if="${#lists.isEmpty(estoqueBaixo)}">Nenhum produto com estoque baixo. 🎉</p>
+        </div>
+
+        <div class="card card-pad">
+            <h3 style="margin-top:0;">Atalhos</h3>
+            <div class="quick-links">
+                <a th:href="@{/produtos/novo}" class="btn btn-primary">+ Cadastrar produto (CREATE)</a>
+                <a th:href="@{/produtos}" class="btn btn-outline">📋 Listar / consultar produtos (READ)</a>
+                <a th:href="@{/produtos}" class="btn btn-outline">✏️ Editar ou 🗑️ excluir produtos (UPDATE / DELETE)</a>
+                <a th:href="@{/admin/usuarios}" class="btn btn-outline">👥 Gerenciar usuários</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

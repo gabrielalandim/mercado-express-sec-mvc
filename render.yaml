@@ -1,0 +1,39 @@
+# Blueprint do Render: cria o PostgreSQL e o Web Service (Docker) já conectados.
+# Render > New > Blueprint > selecione este repositório.
+databases:
+  - name: mercadoexpress-db
+    databaseName: mercadoexpress
+    user: mercadoexpress
+    plan: free
+
+services:
+  - type: web
+    name: mercado-express-sec-mvc
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: mercadoexpress-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: mercadoexpress-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: mercadoexpress-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: mercadoexpress-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mercadoexpress-db
+          property: password
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false

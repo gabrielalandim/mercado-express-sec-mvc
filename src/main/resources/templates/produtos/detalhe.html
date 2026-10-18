@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments :: pageHead(${produto.nome})}"></th:block>
+</head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<!-- READ de um único produto: SELECT na tabela TDS_Sec_MVC_TB_Mercado pelo ID -->
+<div class="container">
+    <div class="page-header">
+        <div>
+            <p class="subtitle" th:text="'Produto #' + ${produto.id}">Produto #1</p>
+            <h1 th:text="${produto.nome}">Nome do produto</h1>
+        </div>
+        <div class="actions-cell">
+            <a th:href="@{/produtos}" class="btn btn-outline">← Voltar</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/produtos/{id}/editar(id=${produto.id})}" class="btn btn-primary">Editar</a>
+            <form sec:authorize="hasRole('ADMIN')" class="inline-form"
+                  th:action="@{/produtos/{id}/excluir(id=${produto.id})}" method="post"
+                  onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                <button type="submit" class="btn btn-danger-outline">Excluir</button>
+            </form>
+        </div>
+    </div>
+
+    <th:block th:replace="~{fragments :: alerts}"></th:block>
+
+    <div class="card">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="label">Tipo / categoria</div>
+                <div class="value"><span class="badge" th:text="${produto.tipo}">Tipo</span></div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Setor</div>
+                <div class="value" th:text="${produto.setor}">Setor</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Tamanho / porção</div>
+                <div class="value" th:text="${produto.tamanho}">Tamanho</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Preço de venda</div>
+                <div class="value price" th:text="${'R$ ' + #numbers.formatDecimal(produto.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Estoque disponível</div>
+                <div class="value">
+                    <span class="badge"
+                          th:classappend="${produto.estoque == 0 ? 'badge-zero' : (produto.estoque le 10 ? 'badge-low' : 'badge-ok')}"
+                          th:text="${produto.estoque} + ' unidades'">0</span>
+                </div>
+            </div>
+            <!-- Informações de custo e margem: somente ADMIN -->
+            <div class="detail-item" sec:authorize="hasRole('ADMIN')">
+                <div class="label">Custo / margem unitária</div>
+                <div class="value">
+                    <span th:text="${'R$ ' + #numbers.formatDecimal(produto.precoCusto, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</span>
+                    ·
+                    <span class="price" th:text="${'+ R$ ' + #numbers.formatDecimal(produto.preco.subtract(produto.precoCusto), 1, 'POINT', 2, 'COMMA')}">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: pageHead('Criar conta')}"></th:block>
+</head>
+<body>
+<!-- Tela de Sign Up: salva o perfil em TDS_Users_Mercado -->
+<div class="auth-wrapper">
+    <div class="auth-card wide">
+        <div class="auth-head">
+            <div class="logo">📝</div>
+            <h1>Criar conta</h1>
+            <p class="subtitle">Cadastre-se para acessar o catálogo do Mercado Express</p>
+        </div>
+
+        <div class="alert alert-info" th:if="${param.semConta}">
+            Não encontramos uma conta com o usuário
+            <strong th:text="${param.username}">usuario</strong>.
+            Faça seu cadastro abaixo para poder entrar.
+        </div>
+
+        <form th:action="@{/cadastro}" th:object="${usuario}" method="post" novalidate>
+            <div class="form-group">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" th:field="*{nome}" th:errorclass="is-invalid" placeholder="Maria da Silva" />
+                <span class="field-error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" th:field="*{email}" th:errorclass="is-invalid" placeholder="voce@email.com" />
+                <span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" th:field="*{username}" th:errorclass="is-invalid" placeholder="maria.silva" />
+                <span class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" th:field="*{senha}" th:errorclass="is-invalid" placeholder="mín. 6 caracteres" />
+                    <span class="field-error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirmacaoSenha">Confirmar senha</label>
+                    <input type="password" id="confirmacaoSenha" th:field="*{confirmacaoSenha}" th:errorclass="is-invalid" placeholder="repita a senha" />
+                    <span class="field-error" th:if="${#fields.hasErrors('confirmacaoSenha')}" th:errors="*{confirmacaoSenha}"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Criar minha conta</button>
+        </form>
+
+        <p class="auth-footer">
+            Já tem conta? <a th:href="@{/login}">Entrar</a>
+        </p>
+        <p class="auth-footer"><a th:href="@{/}" class="link-muted">← Voltar para o início</a></p>
+    </div>
+</div>
+</body>
+</html>
